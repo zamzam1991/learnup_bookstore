@@ -28,7 +28,7 @@ public class Author {
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Book> books;
 
 }

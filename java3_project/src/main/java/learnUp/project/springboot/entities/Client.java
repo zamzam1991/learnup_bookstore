@@ -32,7 +32,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Order> orders;
 
 }

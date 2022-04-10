@@ -24,7 +24,7 @@ public class BookWarehouse {
 
     @OneToMany(mappedBy = "bookWarehouse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     List<BatchOfBook> batches;
 
     @Column(name = "book_count", nullable = false)

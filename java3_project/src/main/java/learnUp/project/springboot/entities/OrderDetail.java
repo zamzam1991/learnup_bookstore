@@ -19,7 +19,7 @@ public class OrderDetail {
     @Fetch(FetchMode.JOIN)
     private Order order;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "id")
     @Fetch(FetchMode.JOIN)
     Book book;

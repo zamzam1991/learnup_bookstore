@@ -19,14 +19,14 @@ public class BatchOfBook {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id")
     @Fetch(FetchMode.JOIN)
     private BookWarehouse bookWarehouse;
 
     @OneToOne
     @JoinColumn(name = "id")
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
     private Book book;
 
     private int booksCount;
