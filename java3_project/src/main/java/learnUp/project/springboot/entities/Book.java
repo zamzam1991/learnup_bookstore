@@ -25,7 +25,7 @@ public class Book {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany
+    @OneToOne
     @JoinColumn(name = "id")
     @Fetch(FetchMode.JOIN)
     private Author author;
