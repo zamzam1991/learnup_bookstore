@@ -22,7 +22,7 @@ public class BookWarehouse {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookWarehouse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Fetch(FetchMode.JOIN)
     List<BatchOfBook> batches;
