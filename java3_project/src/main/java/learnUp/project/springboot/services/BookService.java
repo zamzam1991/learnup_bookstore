@@ -1,5 +1,6 @@
 package learnUp.project.springboot.services;
 
+import learnUp.project.springboot.entities.Author;
 import learnUp.project.springboot.entities.Book;
 import learnUp.project.springboot.repositories.BookRepository;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,22 @@ public class BookService {
 
     public Book getBookById(Long id) {
         return repository.getById(id);
+    }
+
+    public Book getBookByName(String name) {
+        return repository.findByName(name);
+    }
+
+    public List<Book> getAllBooksByAuthorName(String name) {
+        return repository.findAllByAuthorName(name);
+    }
+
+    public List<Book> getAllBooksByAuthorId(Long id) {
+        return repository.findAllByAuthorId(id);
+    }
+
+    public List<Book> getAllBooksByAuthor(Author author) {
+        return repository.findAllByAuthor(author);
     }
 
 }

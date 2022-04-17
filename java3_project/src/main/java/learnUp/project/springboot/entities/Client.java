@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @ToString
+@Table(name = "clients")
 public class Client {
 
     @Id
@@ -30,9 +31,9 @@ public class Client {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SELECT)
     private List<Order> orders;
 
 }

@@ -16,17 +16,18 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @ToString
+@Table(name = "bookwarehouses")
 public class BookWarehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToMany(mappedBy = "bookWarehouse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookWarehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SELECT)
     List<BatchOfBook> batches;
 
-    @Column(name = "book_count", nullable = false)
+    @Column(name = "books_count", nullable = false)
     private int bookCount;
 }

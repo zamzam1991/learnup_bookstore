@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Table(name = "orders")
 @RequiredArgsConstructor
 public class Order {
     @Id
@@ -20,16 +21,16 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
-    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "client", updatable = false, insertable = false)
+    @Fetch(FetchMode.SELECT)
     private Client client;
 
-    @Column
+    @Column(name = "sum", columnDefinition = "NUMERIC(10,2)")
     private Double sum;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SELECT)
     private List<OrderDetail> orderDetails;
 
 }

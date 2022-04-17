@@ -22,6 +22,10 @@ public class AuthorService {
         return repository.findAll();
     }
 
+    public Author getAuthorByName(String name) {
+        return repository.findByName(name);
+    }
+
     public Author getAuthorById(Long id) {
         return repository.getById(id);
     }

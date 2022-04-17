@@ -15,7 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@ToString
+@NamedQuery(name = "Author", query = "select id, FIO from Author where id = :id")
+@Table(name = "authors")
 public class Author {
 
     @Id
@@ -23,12 +24,19 @@ public class Author {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "fio", nullable = false)
     private String FIO;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SELECT)
     private List<Book> books;
 
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", FIO='" + FIO + '\'' +
+                '}';
+    }
 }
