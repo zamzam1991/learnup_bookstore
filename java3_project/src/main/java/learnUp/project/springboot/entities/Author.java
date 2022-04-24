@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NamedQuery(name = "Author", query = "select id, FIO from Author where id = :id")
+@NamedQuery(name = "Author", query = "select a from Author a join a.books where a.id = :id")
 @Table(name = "authors")
 public class Author {
 
@@ -27,9 +27,9 @@ public class Author {
     @Column(name = "fio", nullable = false)
     private String FIO;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     private List<Book> books;
 
     @Override
@@ -37,6 +37,7 @@ public class Author {
         return "Author{" +
                 "id=" + id +
                 ", FIO='" + FIO + '\'' +
+                ", books=" + books +
                 '}';
     }
 }

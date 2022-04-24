@@ -18,16 +18,16 @@ public class AuthorService {
         return repository.save(author);
     }
 
-    public List<Author> getAuthor() {
-        return repository.findAll();
-    }
-
     public Author getAuthorByName(String name) {
         return repository.findByName(name);
     }
 
     public Author getAuthorById(Long id) {
         return repository.getById(id);
+    }
+
+    public List<Author> getAllAuthors() {
+        return repository.findAll();
     }
 
 }
