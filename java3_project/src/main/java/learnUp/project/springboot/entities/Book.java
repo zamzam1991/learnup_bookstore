@@ -35,6 +35,8 @@ public class Book {
     @ToString.Exclude
     private Author author;
 
+    //private String imageUrl;// = "https://origami.kosmulski.org/img/icons/book-openclipart-67633.png";
+
     @Column(name = "year_of_publication")
     private int yearOfPublication;
 

@@ -19,7 +19,7 @@ public class SpringBootApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringBootApplication.class, args);
 
-        BookService bookService = context.getBean(BookService.class);
+//        BookService bookService = context.getBean(BookService.class);
 
 //        List<Book> books = bookService.getAllBooksByAuthorName("Джон Рональд Руэл Толкиен");
 //        System.out.println(books);
@@ -28,13 +28,14 @@ public class SpringBootApplication {
 //        Author author = authorService.getAuthorById(1L);
 //        System.out.println(author);
 
-        ProductService productService = context.getBean(ProductService.class);
-        Product product = productService.createProduct(new Product("Milk"));
+//        ProductService productService = context.getBean(ProductService.class);
+//        Product product = productService.createProduct(new Product("Milk"));
+//
+//        product.setName("Milkshake");
+//
+//        Product product1 = productService.update(product);
+//
+//        log.info("New product - {}", product1);
 
-        product.setName("Milkshake");
-
-        Product product1 = productService.update(product);
-
-        log.info("New product - {}", product1);
     }
 }

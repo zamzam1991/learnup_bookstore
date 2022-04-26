@@ -1,9 +1,6 @@
 package learnUp.project.springboot.entities;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
@@ -14,7 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @NamedQuery(name = "Author", query = "select a from Author a join a.books where a.id = :id")
 @Table(name = "authors")
 public class Author {
@@ -25,6 +24,7 @@ public class Author {
     private long id;
 
     @Column(name = "fio", nullable = false)
+    @NonNull
     private String FIO;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

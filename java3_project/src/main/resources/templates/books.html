@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:https="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <link rel="icon" type="image/png" th:href="@{/icon.png}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div th:replace="~{navigation :: navi(Shop)}"></div>
+
+
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <h1>Книги:</h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Номер</th>
+            <th>Изображение</th>
+            <th>Название книги</th>
+            <th>Автор</th>
+            <th>Год публикации</th>
+            <th>Количество страниц</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="thead-light" th:each="book, stat : ${books}">
+            <td th:text="${stat.index+1}"></td>
+            <td>
+                <img th:src="@{$'{https://origami.kosmulski.org/img/icons/book-openclipart-67633.png}'}"
+                     class="card img-fluid" style="width:50px; height: 50px;" alt=""/>
+            </td>
+            <td th:text="${book.getName()}"></td>
+            <td th:text="${book.getAuthor().getFIO()}"></td>
+            <td th:text="${book.getYearOfPublication()}"></td>
+            <td th:text="${book.getPagesCount()}"></td>
+            <td th:text="${book.getPrice()}"></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+</body>
+</html>
