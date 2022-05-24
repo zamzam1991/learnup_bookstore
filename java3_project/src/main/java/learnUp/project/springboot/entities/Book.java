@@ -1,16 +1,15 @@
 package learnUp.project.springboot.entities;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.*;
+import org.hibernate.annotations.*;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -18,8 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @NamedQuery(name = "Book", query = "select b from Book b where id = :id")
 @Table(name = "books")
-@ToString
-public class Book {
+public class Book implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,14 +27,10 @@ public class Book {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author", updatable = false, insertable = false, nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "author")
     @Fetch(FetchMode.JOIN)
-    @NotNull
-    @ToString.Exclude
     private Author author;
-
-    //private String imageUrl;// = "https://origami.kosmulski.org/img/icons/book-openclipart-67633.png";
 
     @Column(name = "year_of_publication")
     private int yearOfPublication;
@@ -48,17 +43,24 @@ public class Book {
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SELECT)
-    @ToString.Exclude
+    @Fetch(FetchMode.SUBSELECT)
     private List<OrderDetail> orderDetails;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @Fetch(FetchMode.SELECT)
-    @ToString.Exclude
+    @Fetch(FetchMode.SUBSELECT)
     private List<BatchOfBook> batches;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return getYearOfPublication() == book.getYearOfPublication() && getPagesCount() == book.getPagesCount() && Objects.equals(getName(), book.getName()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getPrice(), book.getPrice());
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getAuthor(), getYearOfPublication(), getPagesCount(), getPrice());
+    }
 }

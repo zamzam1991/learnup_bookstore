@@ -1,10 +1,12 @@
 package learnUp.project.springboot.entities;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -18,32 +20,31 @@ public class OrderDetail {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "order", updatable = false, insertable = false)
-    @Fetch(FetchMode.SELECT)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @Fetch(FetchMode.JOIN)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "id", updatable = false, insertable = false)
-    @Fetch(FetchMode.SELECT)
-    Book book;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "book")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @Fetch(FetchMode.JOIN)
+    private Book book;
 
     @Column(name = "count")
     private int booksCount;
 
-    @Column(columnDefinition = "NUMERIC(8,2)")
-    private double price;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        OrderDetail that = (OrderDetail) o;
-        return false;
+        if (!(o instanceof OrderDetail)) return false;
+        OrderDetail detail = (OrderDetail) o;
+        return getBooksCount() == detail.getBooksCount() && Objects.equals(getOrder(), detail.getOrder()) && Objects.equals(getBook(), detail.getBook());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getOrder(), getBook(), getBooksCount());
     }
 }

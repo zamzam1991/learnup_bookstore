@@ -1,6 +1,7 @@
 package learnUp.project.springboot.repositories;
 
 import learnUp.project.springboot.entities.Author;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     @Query(value = "from Author a join fetch a.books where a.id = :id")
     Author getById(Long id);
 
-    List<Author> findAll();
+    List<Author> findAll(Specification<Author> specification);
 }

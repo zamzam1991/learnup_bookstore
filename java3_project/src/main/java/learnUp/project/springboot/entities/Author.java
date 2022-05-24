@@ -1,22 +1,25 @@
 package learnUp.project.springboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.*;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
 @NamedQuery(name = "Author", query = "select a from Author a join a.books where a.id = :id")
 @Table(name = "authors")
-public class Author {
+public class Author implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +42,18 @@ public class Author {
                 ", FIO='" + FIO + '\'' +
                 ", books=" + books +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Author)) return false;
+        Author author = (Author) o;
+        return getFIO().equals(author.getFIO());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFIO());
     }
 }

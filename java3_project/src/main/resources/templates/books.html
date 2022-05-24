@@ -38,7 +38,7 @@
         <tr class="thead-light" th:each="book, stat : ${books}">
             <td th:text="${stat.index+1}"></td>
             <td>
-                <img th:src="@{$'{https://origami.kosmulski.org/img/icons/book-openclipart-67633.png}'}"
+                <img th:src="@{/bookicon.png}"
                      class="card img-fluid" style="width:50px; height: 50px;" alt=""/>
             </td>
             <td th:text="${book.getName()}"></td>

@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     @Transactional
-    @CacheEvict(value = "product", key = "#product.id")
+    //@CacheEvict(value = "product", key = "#product.id")
     @Lock(value = LockModeType.READ)
     public Product update(Product product) {
         try {
