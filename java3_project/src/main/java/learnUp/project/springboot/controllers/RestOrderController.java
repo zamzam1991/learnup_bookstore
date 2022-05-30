@@ -120,19 +120,6 @@ public class RestOrderController {
         return mapper.mapToView(service.update(order));
     }
 
-    @PutMapping("/{orderId}/addToDetail")
-    public OrderView removeToDetail(
-            @PathVariable ("orderId") Long orderId,
-            @RequestBody OrderDetailView body
-    ) {
-        OrderDetail detail = detailService.getDetailByOrderAndBook(orderId, (bookService.getBookByName(body.getBook().getName())).getId());
-        Order order = service.getOrderById(orderId);
-        detail.setBooksCount(detail.getBooksCount() - body.getBooksCount());
-        order.setSum(order.getSum() - (body.getBooksCount() * body.getBook().getPrice()));
-        detailService.update(detail);
-        return mapper.mapToView(service.update(order));
-    }
-
     @DeleteMapping("/{orderId}")
     public Boolean deleteOrder(
             @PathVariable("orderId") Long orderId
