@@ -14,4 +14,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query(value = "select * from clients c where c.fio = ?1", nativeQuery = true)
     Client findByName(String name);
+
+    @Query(value = "select * from clients c where c.username = ?1", nativeQuery = true)
+    Client findByUsername(String username);
 }

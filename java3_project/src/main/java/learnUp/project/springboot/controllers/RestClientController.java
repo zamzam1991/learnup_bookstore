@@ -1,10 +1,12 @@
 package learnUp.project.springboot.controllers;
 
 import learnUp.project.springboot.entities.Client;
+import learnUp.project.springboot.entities.Role;
 import learnUp.project.springboot.filters.ClientFilter;
 import learnUp.project.springboot.services.ClientService;
 import learnUp.project.springboot.viewmappers.ClientViewMapper;
 import learnUp.project.springboot.views.ClientView;
+import learnUp.project.springboot.views.RoleView;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +35,10 @@ public class RestClientController {
     public List<ClientView> getClients(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "birthDate", required = false) LocalDate birthDate,
-            @RequestParam(value = "orderId", required = false) Long orderId
+            @RequestParam(value = "orderId", required = false) Long orderId,
+            @RequestParam(value = "username", required = false) String username
     ) {
-        return service.getClientsBy(new ClientFilter(name, birthDate, orderId))
+        return service.getClientsBy(new ClientFilter(name, username, birthDate, orderId))
                 .stream()
                 .map(mapper::mapToView)
                 .collect(Collectors.toList());
@@ -47,15 +50,27 @@ public class RestClientController {
     }
 
     @PostMapping
-    public ClientView createClient(@RequestBody ClientView body) {
+    public Boolean createClient(@RequestBody ClientView body) {
         if (body.getId() != null) {
             throw new EntityExistsException(
                     String.format("Client with id = %s already exist", body.getId())
             );
         }
-        Client client = mapper.mapFromView(body);
-        Client createdClient = service.createClient(client);
-        return mapper.mapToView(createdClient);
+
+        Client entity = new Client();
+        entity.setFIO(body.getFIO());
+        entity.setBirthDate(body.getBirthDate());
+        entity.setUsername(body.getUsername());
+        entity.setPassword(body.getPassword());
+        entity.setRoles(
+                body.getRoles()
+                        .stream()
+                        .map(RoleView::getRole)
+                        .map(Role::new)
+                        .collect(Collectors.toSet())
+        );
+        service.create(entity);
+        return true;
     }
 
     @PutMapping("/{clientId}")

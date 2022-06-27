@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ClientFilter {
     public String FIO;
+    public String username;
     public LocalDate birthDate;
     public Long orderId;
 }

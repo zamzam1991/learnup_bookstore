@@ -16,16 +16,20 @@ public class ClientSpecification {
             Join<Order, Client> orderJoin;
 
             if (filter.getFIO() != null) {
-                predicate = cb.and(predicate, cb.like(root.get("name"), "%" + filter.getFIO() + "%"));
+                predicate = cb.and(predicate, cb.like(root.get("FIO"), "%" + filter.getFIO() + "%"));
+            }
+
+            if (filter.getUsername() != null) {
+                predicate = cb.and(predicate, cb.like(root.get("username"), "%" + filter.getUsername() + "%"));
             }
 
             if (filter.getBirthDate() != null) {
-                predicate = cb.and(cb.lessThanOrEqualTo(root.get("price"), filter.getBirthDate()));
+                predicate = cb.and(cb.lessThanOrEqualTo(root.get("birthDate"), filter.getBirthDate()));
             }
 
             if (filter.getOrderId() != null) {
                 orderJoin = root.join("client");
-                predicate = cb.and(predicate, cb.equal(orderJoin.get("id"), "%" + filter.getOrderId() + "%"));
+                predicate = cb.and(predicate, cb.equal(orderJoin.get("orderId"), "%" + filter.getOrderId() + "%"));
             }
 
             return predicate;
